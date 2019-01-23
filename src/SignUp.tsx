@@ -14,6 +14,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CssBaseline from "@material-ui/core/CssBaseline/CssBaseline";
 import {signUp} from "./firebase/auth";
 import TextField from "@material-ui/core/TextField/TextField";
+import {updateUser} from "./firebase/db";
 
 const styles = (theme: Theme): StyleRules => ({
   main: {
@@ -72,7 +73,7 @@ class SignUp extends React.Component<Props, SignUpObject> {
   // input要素が変更された時のハンドリング
   private handleChange = (event: any) => {
     // エラー内容をクリア
-    this.setState({error: null})
+    this.setState({error: null});
 
     if (event.target.name === "username") {
       this.setState({username: event.target.value});
@@ -92,7 +93,7 @@ class SignUp extends React.Component<Props, SignUpObject> {
       const authUser = await signUp(this.state.email, this.state.password);
       // ユーザ情報の更新
       if (authUser.user) {
-//          await updateUser({uid: authUser.user.uid, name: this.state.data.username, email: this.state.data.email});
+          await updateUser({uid: authUser.user.uid, name: this.state.username, email: this.state.email});
       }
     } catch (e) {
       this.setState({
